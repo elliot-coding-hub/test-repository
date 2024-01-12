@@ -1,0 +1,16 @@
+name: Django CI
+
+on:
+  issues:
+    types:
+      - opened
+
+jobs:
+  simple:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: List command
+        run: |
+          pwd
+
