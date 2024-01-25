@@ -1,1 +1,1 @@
-curl https://google.com
+curl $0
