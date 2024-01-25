@@ -22,4 +22,4 @@ jobs:
           DB_ID: ${{ secrets.NOTION_TASK_DB_ID }}
           TITLE: ${{ github.event.pull_request.title }}
         run: |
-          python scripts/pr_test_helper.py -secret $API_KEY -database_id $DB_ID -pr_title $TITLE
+          python scripts/pr_task_helper.py -secret $API_KEY -database_id $DB_ID -pr_title $TITLE
