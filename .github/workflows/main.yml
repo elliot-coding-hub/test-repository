@@ -13,6 +13,8 @@ jobs:
     - uses: actions/checkout@v3
     - name: Set the task as Done
       env:
+        API_KEY: ${{ secret.NOTION_API_KEY }}
+        DB_ID: ${{ secret.NOTION_TASK_DB_ID }}
         TITLE: ${{ github.event.pull_request.title }}
       run: |
-        echo $TITLE
+        python ./scripts/pr_test_helper.py -secret $API_KEY -database_id $DB_ID -pr_title $TITLE
