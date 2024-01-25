@@ -1,8 +1,9 @@
 import argparse
+import json as _json
 import re
 from enum import Enum
 
-import requests
+import urllib3
 
 TASK_ID_PROPERTY = "Task ID"
 TASK_STATUS_PROPERTY = "Status"
@@ -12,6 +13,30 @@ parser.add_argument("-secret", help="Please set notion api secret key")
 parser.add_argument("-database_id", help="Please set notion database-id")
 parser.add_argument("-pr_title", help="Please set pr-title")
 args = parser.parse_args()
+
+
+class Request:
+    def __init__(self):
+        self.http = urllib3.PoolManager()
+
+    class Response:
+        def __init__(self, response_body: str):
+            self.response_body = response_body
+
+        def json(self) -> dict:
+            result = _json.loads(self.response_body)
+            return result
+
+    def post(self, url: str, headers: dict[str, any], json: dict[str, any]) -> Response:
+        response = self.http.request(method='POST', url=url, headers=headers, body=_json.dumps(json))
+        return self.Response(response.data.decode('utf-8'))
+
+    def patch(self, url: str, headers: dict[str, any], json: dict[str, any]) -> Response:
+        response = self.http.request(method='PATCH', url=url, headers=headers, body=_json.dumps(json))
+        return self.Response(response.data.decode('utf-8'))
+
+
+requests = Request()
 
 
 class Status(str, Enum):
