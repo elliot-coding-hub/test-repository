@@ -1,2 +1,1 @@
-echo "test1111"
-ls
+curl https://google.com
