@@ -1,0 +1,16 @@
+name: Test
+
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  if_merged:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set the task as Done
+      run: |
+        ./scripts/finish_task.sh
