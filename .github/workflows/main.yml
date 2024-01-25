@@ -9,12 +9,17 @@ jobs:
   task-done:
     if: github.event.pull_request.merged
     runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [ 3.7, 3.8, 3.9 ]
+
     steps:
-    - uses: actions/checkout@v3
-    - name: Set the task as Done
-      env:
-        API_KEY: ${{ secrets.NOTION_API_KEY }}
-        DB_ID: ${{ secrets.NOTION_TASK_DB_ID }}
-        TITLE: ${{ github.event.pull_request.title }}
-      run: |
-        python scripts/pr_test_helper.py -secret $API_KEY -database_id $DB_ID -pr_title $TITLE
+      - uses: actions/checkout@v3
+      - name: Set the task as Done
+        env:
+          API_KEY: ${{ secrets.NOTION_API_KEY }}
+          DB_ID: ${{ secrets.NOTION_TASK_DB_ID }}
+          TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          python scripts/pr_task_helper.py -secret $API_KEY -database_id $DB_ID -pr_title $TITLE
